@@ -189,7 +189,7 @@ public class MainClass implements ActionListener,MouseListener
 	int red=0;
 	int darkRed=1;
 	
-	String theme="greenTheme";
+	String theme="darkTheme";
 	
 	
 	JFrame mainFrame=new JFrame("Storage");
@@ -353,7 +353,7 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel.setLayout(null);
 		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		actualPanel.add(suVoltarChooseLogin);
-		suVoltarChooseLogin.setIcon(new ImageIcon("seta.png"));
+		suVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
 		suVoltarChooseLogin.setBackground(null);
 		suVoltarChooseLogin.setBorder(null);
 		suVoltarChooseLogin.setBounds(83,33,42,41);
@@ -441,7 +441,7 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel.setLayout(null);
 		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		actualPanel.add(lVoltarChooseLogin);
-		lVoltarChooseLogin.setIcon(new ImageIcon("seta.png"));
+		lVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
 		lVoltarChooseLogin.setBackground(null);
 		lVoltarChooseLogin.setBorder(null);
 		lVoltarChooseLogin.setBounds(85,33,42,41);
@@ -568,7 +568,7 @@ public class MainClass implements ActionListener,MouseListener
 			signUp();				
 		}
 		
-		if(e.getSource()==signUpSend&&signUpSendSuccessful()) {			
+		if(e.getSource()==signUpSend&&signUpSendSuccessful()) {
 			chooseLogin();
 		}
 		
@@ -608,11 +608,11 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==login) {
-			login.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button 2 light.png":(theme.equals("darkTheme")?"darker rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"darker rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"darkder rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"darker rounded button 2 green.png":"darker rounded button 2.png"))))));
+			login.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button 2 light.png":(theme.equals("darkTheme")?"darker rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"darker rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"darker rounded button 2 green.png":"darker rounded button 2.png"))))));
 		}
 		
 		if(e.getSource()==signUp) {
-			signUp.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button 2 light.png":(theme.equals("darkTheme")?"darker rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"darker rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"darkder rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"darker rounded button 2 green.png":"darker rounded button 2.png"))))));
+			signUp.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button 2 light.png":(theme.equals("darkTheme")?"darker rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"darker rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"darker rounded button 2 green.png":"darker rounded button 2.png"))))));
 		}
 		
 		if(e.getSource()==suVoltarChooseLogin) {
@@ -620,7 +620,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==signUpSend) {
-			signUpSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button light.png":(theme.equals("darkTheme")?"darker rounded button dark.png":(theme.equals("darkBlueTheme")?"darker rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"darkder rounded button lightBlue.png":(theme.equals("greenTheme")?"darker rounded button green.png":"darker rounded button.png"))))));
+			signUpSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button light.png":(theme.equals("darkTheme")?"darker rounded button dark.png":(theme.equals("darkBlueTheme")?"darker rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button lightBlue.png":(theme.equals("greenTheme")?"darker rounded button green.png":"darker rounded button.png"))))));
 		}
 		
 		if(e.getSource()==lVoltarChooseLogin) {
@@ -628,7 +628,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==loginSend) {
-			loginSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button light.png":(theme.equals("darkTheme")?"darker rounded button dark.png":(theme.equals("darkBlueTheme")?"darker rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"darkder rounded button lightBlue.png":(theme.equals("greenTheme")?"darker rounded button green.png":"darker rounded button.png"))))));
+			loginSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button light.png":(theme.equals("darkTheme")?"darker rounded button dark.png":(theme.equals("darkBlueTheme")?"darker rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button lightBlue.png":(theme.equals("greenTheme")?"darker rounded button green.png":"darker rounded button.png"))))));
 		}
 		
 		
@@ -658,7 +658,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==suVoltarChooseLogin) {
-			suVoltarChooseLogin.setIcon(new ImageIcon("seta.png"));
+			suVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
 		}
 		
 		if(e.getSource()==signUpSend) {
@@ -666,7 +666,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==lVoltarChooseLogin) {
-			lVoltarChooseLogin.setIcon(new ImageIcon("seta.png"));
+			lVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
 		}
 		
 		if(e.getSource()==loginSend) {
