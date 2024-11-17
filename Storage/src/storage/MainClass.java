@@ -191,10 +191,6 @@ public class MainClass implements ActionListener,MouseListener
 	
 	String theme="greenTheme";
 	
-	Icon roundedButton=new ImageIcon("rounded button 2.png");
-	Icon darkerRoundedButton=new ImageIcon("darker rounded button 2.png");
-	Icon smallRoundedButton=new ImageIcon("rounded button.png");
-	Icon darkerSmallRoundedButton=new ImageIcon("darker rounded button.png");
 	
 	JFrame mainFrame=new JFrame("Storage");
 		JButton boxRemover=new JButton();
@@ -335,7 +331,7 @@ public class MainClass implements ActionListener,MouseListener
 		signUp.setBounds(502,453,361,57);
 		signUp.setContentAreaFilled(false);
 		signUp.setOpaque(false);
-		signUp.setIcon(roundedButton);
+		signUp.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
 		signUp.setBorder(null);
 		actualPanel.add(loginText);
 		loginText.setBounds(502,538,361,57);
@@ -347,7 +343,7 @@ public class MainClass implements ActionListener,MouseListener
 		login.setBounds(502,538,361,57);
 		login.setBorder(null);
 		login.setContentAreaFilled(false);
-		login.setIcon(roundedButton);
+		login.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
 		signUp.addActionListener(this);
 		signUp.addMouseListener(this);
 		login.addActionListener(this);
@@ -435,7 +431,7 @@ public class MainClass implements ActionListener,MouseListener
 		signUpSend.setOpaque(false);
 		signUpSend.setContentAreaFilled(false);
 		signUpSend.setBorder(null);
-		signUpSend.setIcon(smallRoundedButton);
+		signUpSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
 		suVoltarChooseLogin.addActionListener(this);
 		suVoltarChooseLogin.addMouseListener(this);
 		signUpSend.addActionListener(this);
@@ -501,7 +497,7 @@ public class MainClass implements ActionListener,MouseListener
 		loginSend.setOpaque(false);
 		loginSend.setContentAreaFilled(false);
 		loginSend.setBorder(null);
-		loginSend.setIcon(smallRoundedButton);
+		loginSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
 		lVoltarChooseLogin.addActionListener(this);
 		lVoltarChooseLogin.addMouseListener(this);
 		loginSend.addActionListener(this);
@@ -612,11 +608,11 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==login) {
-			login.setIcon(darkerRoundedButton);
+			login.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button 2 light.png":(theme.equals("darkTheme")?"darker rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"darker rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"darkder rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"darker rounded button 2 green.png":"darker rounded button 2.png"))))));
 		}
 		
 		if(e.getSource()==signUp) {
-			signUp.setIcon(darkerRoundedButton);
+			signUp.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button 2 light.png":(theme.equals("darkTheme")?"darker rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"darker rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"darkder rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"darker rounded button 2 green.png":"darker rounded button 2.png"))))));
 		}
 		
 		if(e.getSource()==suVoltarChooseLogin) {
@@ -624,7 +620,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==signUpSend) {
-			signUpSend.setIcon(darkerSmallRoundedButton);
+			signUpSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button light.png":(theme.equals("darkTheme")?"darker rounded button dark.png":(theme.equals("darkBlueTheme")?"darker rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"darkder rounded button lightBlue.png":(theme.equals("greenTheme")?"darker rounded button green.png":"darker rounded button.png"))))));
 		}
 		
 		if(e.getSource()==lVoltarChooseLogin) {
@@ -632,7 +628,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==loginSend) {
-			loginSend.setIcon(darkerSmallRoundedButton);
+			loginSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button light.png":(theme.equals("darkTheme")?"darker rounded button dark.png":(theme.equals("darkBlueTheme")?"darker rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"darkder rounded button lightBlue.png":(theme.equals("greenTheme")?"darker rounded button green.png":"darker rounded button.png"))))));
 		}
 		
 		
@@ -654,11 +650,11 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==login) {
-			login.setIcon(roundedButton);
+			login.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
 		}
 		
 		if(e.getSource()==signUp) {
-			signUp.setIcon(roundedButton);
+			signUp.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
 		}
 		
 		if(e.getSource()==suVoltarChooseLogin) {
@@ -666,7 +662,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==signUpSend) {
-			signUpSend.setIcon(smallRoundedButton);
+			signUpSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
 		}
 		
 		if(e.getSource()==lVoltarChooseLogin) {
@@ -674,7 +670,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==loginSend) {
-			loginSend.setIcon(smallRoundedButton);
+			loginSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
 		}
 		
 		
