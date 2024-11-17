@@ -8,8 +8,12 @@ import javax.swing.*;
 import javax.swing.border.*;
 public class MainClass implements ActionListener,MouseListener
 {	
-	String connectionString="jdbc:sqlserver://LAPTOP-J55A2J1I\\SQLEXPRESS;database=storage;trustServerCertificate=true;user=sa;password=CPtis2024";
-
+	//Portatil
+	//String connectionString="jdbc:sqlserver://LAPTOP-J55A2J1I\\SQLEXPRESS;database=storage;trustServerCertificate=true;user=sa;password=CPtis2024";
+	
+	//Fixo
+	String connectionString="jdbc:sqlserver://DESKTOP-C774PUO;database=storage;trustServerCertificate=true;user=sa;password=CPtis2024";
+	
 	public boolean loginSendSuccessful()
 	{
 		try(Connection c=DriverManager.getConnection(connectionString))
