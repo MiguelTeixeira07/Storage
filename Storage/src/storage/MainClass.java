@@ -9,10 +9,12 @@ import javax.swing.border.*;
 public class MainClass implements ActionListener,MouseListener
 {	
 	//Portatil
-	//String connectionString="jdbc:sqlserver://LAPTOP-J55A2J1I\\SQLEXPRESS;database=storage;trustServerCertificate=true;user=sa;password=CPtis2024";
+	String connectionString="jdbc:sqlserver://LAPTOP-J55A2J1I\\SQLEXPRESS;database=storage;trustServerCertificate=true;user=sa;password=CPtis2024";
 	
 	//Fixo
-	String connectionString="jdbc:sqlserver://DESKTOP-C774PUO;database=storage;trustServerCertificate=true;user=sa;password=CPtis2024";
+	//String connectionString="jdbc:sqlserver://DESKTOP-C774PUO;database=storage;trustServerCertificate=true;user=sa;password=CPtis2024";
+	
+	int loggedUser;
 	
 	public boolean loginSendSuccessful()
 	{
@@ -47,6 +49,10 @@ public class MainClass implements ActionListener,MouseListener
 			if(invalid) {
 				return false;
 			}
+			String query="select codUser from users where username='"+inLoginUsername.getText()+"'";
+			rs=stmt.executeQuery(query);
+			rs.next();
+			loggedUser=Integer.parseInt(rs.getString("codUser"));
 			return true;
 		}
 		catch(SQLException e) {
@@ -166,6 +172,44 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		return true;
 	}
+	
+	public boolean userHasStorage()
+	{
+		try(Connection c=DriverManager.getConnection(connectionString)) {
+			Statement stmt=c.createStatement();
+			String checkStorages="select * from storageInfo";
+			ResultSet rs=stmt.executeQuery(checkStorages);
+			while(rs.next()) {
+				System.out.println(rs.getString("creator"));
+				if(loggedUser==Integer.parseInt(rs.getString("creator"))) {
+					return true;
+				}
+			}
+			return false;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false;			
+		}
+	}
+	
+	public int numRows(String table)
+	{
+		try(Connection c=DriverManager.getConnection(connectionString)) {
+			Statement stmt=c.createStatement();
+			String amountOfStorages="select count(*) from"+table;
+			ResultSet rs=stmt.executeQuery(amountOfStorages);
+			rs.next();
+		    int count=rs.getInt(1);
+			return count;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			System.exit(0);
+			return 0;
+		}
+	}
+	
 	CardLayout c=new CardLayout();
 	
 	Color[] purpleTheme={new Color(222,215,224),new Color(108,91,120),new Color(88,71,100)};
@@ -189,7 +233,7 @@ public class MainClass implements ActionListener,MouseListener
 	int red=0;
 	int darkRed=1;
 	
-	String theme="darkTheme";
+	String theme="darkBlueTheme";
 	
 	
 	JFrame mainFrame=new JFrame("Storage");
@@ -244,9 +288,6 @@ public class MainClass implements ActionListener,MouseListener
 			JLabel loginSendText=new JLabel("Entrar");
 			JButton loginSend=new JButton();
 		
-		JPanel mainAppPanel=new JPanel();
-			JTextField searchBar=new JTextField();
-			JButton searchButton=new JButton();
 		
 		JPanel createStoragePanel=new JPanel();
 			JLabel lStorageName=new JLabel("Nome da Storage");
@@ -256,6 +297,10 @@ public class MainClass implements ActionListener,MouseListener
 			JComboBox inStorageSize=new JComboBox(sizes);
 			JButton storageSend=new JButton("Criar Storage");
 			
+		JPanel mainStoragePanel=new JPanel();
+			JPanel sidePanel=new JPanel();
+			JTextField searchBar=new JTextField();
+			JButton searchButton=new JButton();
 	
 	JPanel actualPanel=chooseLoginPanel;
 	
@@ -311,7 +356,7 @@ public class MainClass implements ActionListener,MouseListener
 		mainPanel.add("chooseLoginPanel",chooseLoginPanel);
 		mainPanel.add("signUpPanel",signUpPanel);
 		mainPanel.add("loginPanel",loginPanel);
-		mainPanel.add("mainAppPanel",mainAppPanel);
+		mainPanel.add("mainStoragePanel",mainStoragePanel);
 		mainPanel.add("createStoragePanel",createStoragePanel);
 		mainPanel.setVisible(true);
 		
@@ -378,6 +423,7 @@ public class MainClass implements ActionListener,MouseListener
 		inSignUpUsername.setBorder(border);
 		inSignUpUsername.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		inSignUpUsername.setFont(new Font("SF Pro Display",Font.BOLD,18));
+		inSignUpUsername.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suUsernameErrorLog);
 		suUsernameErrorLog.setBounds(267,403,386,44);
 		suUsernameErrorLog.setForeground(reds[darkRed]);
@@ -391,6 +437,7 @@ public class MainClass implements ActionListener,MouseListener
 		inSignUpEmail.setBorder(border);
 		inSignUpEmail.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		inSignUpEmail.setFont(new Font("SF Pro Display",Font.BOLD,18));
+		inSignUpEmail.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suEmailErrorLog);
 		suEmailErrorLog.setBounds(267,492,386,44);
 		suEmailErrorLog.setForeground(reds[darkRed]);
@@ -404,6 +451,7 @@ public class MainClass implements ActionListener,MouseListener
 		inSignUpPhone.setBorder(border);
 		inSignUpPhone.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		inSignUpPhone.setFont(new Font("SF Pro Display",Font.BOLD,18));
+		inSignUpPhone.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suPhoneErrorLog);
 		suPhoneErrorLog.setBounds(742,403,386,44);
 		suPhoneErrorLog.setForeground(reds[darkRed]);
@@ -417,6 +465,7 @@ public class MainClass implements ActionListener,MouseListener
 		inSignUpPassword.setBorder(border);
 		inSignUpPassword.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		inSignUpPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+		inSignUpPassword.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suPasswordErrorLog);
 		suPasswordErrorLog.setBounds(742,492,386,44);
 		suPasswordErrorLog.setForeground(reds[darkRed]);
@@ -466,6 +515,7 @@ public class MainClass implements ActionListener,MouseListener
 		inLoginUsername.setBorder(border);
 		inLoginUsername.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		inLoginUsername.setFont(new Font("SF Pro Display",Font.BOLD,18));
+		inLoginUsername.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
 		actualPanel.add(lUsernameErrorLog);
 		lUsernameErrorLog.setBounds(267,421,386,44);
 		lUsernameErrorLog.setForeground(reds[darkRed]);
@@ -479,6 +529,7 @@ public class MainClass implements ActionListener,MouseListener
 		inLoginPassword.setBorder(border);
 		inLoginPassword.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		inLoginPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+		inLoginPassword.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(lPasswordErrorLog);
 		lPasswordErrorLog.setBounds(729,421,386,44);
 		lPasswordErrorLog.setForeground(reds[darkRed]);
@@ -503,8 +554,6 @@ public class MainClass implements ActionListener,MouseListener
 		loginSend.addActionListener(this);
 		loginSend.addMouseListener(this);
 		
-		actualPanel=mainAppPanel;
-		
 		actualPanel=createStoragePanel;
 		actualPanel.setLayout(new FlowLayout());
 		actualPanel.add(lStorageName);
@@ -512,6 +561,18 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel.add(lStorageSize);
 		actualPanel.add(inStorageSize);
 		mainFrame.add(titlebarPanel);
+		
+		actualPanel=mainStoragePanel;
+		actualPanel.setLayout(null);
+		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+		actualPanel.add(sidePanel);
+		sidePanel.setBounds(0,0,300,711);
+		sidePanel.setBorder(BorderFactory.createLineBorder((theme.equals("lightTheme")?lightTheme[selected]:(theme.equals("darkTheme")?darkTheme[selected]:(theme.equals("darkBlueTheme")?darkBlueTheme[selected]:(theme.equals("lightBlueTheme")?lightBlueTheme[selected]:(theme.equals("greenTheme")?greenTheme[selected]:purpleTheme[selected]))))),1));
+		sidePanel.setSize(300,711);
+		sidePanel.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+		actualPanel.add(searchBar);
+		actualPanel.add(searchButton);
+		
 		
 		chooseLogin();
 		
@@ -578,7 +639,12 @@ public class MainClass implements ActionListener,MouseListener
 		
 		if(e.getSource()==loginSend&&loginSendSuccessful()) {
 			titlebarPanel.add(bConta);
-			createStorage();			
+			if(userHasStorage()) {
+				mainStorage();
+			}
+			else {
+				createStorage();
+			}
 		}
 		
 		if(e.getSource()==lVoltarChooseLogin||e.getSource()==suVoltarChooseLogin) {
@@ -711,8 +777,8 @@ public class MainClass implements ActionListener,MouseListener
 		c.show(mainPanel,"createStoragePanel");
 	}
 	
-	public void mainApp()
+	public void mainStorage()
 	{
-		c.show(mainPanel,"mainAppPanel");
+		c.show(mainPanel,"mainStoragePanel");
 	}
 }
