@@ -1,4 +1,3 @@
-//pushed project
 package storage;
 import java.sql.*;
 import java.awt.*;
@@ -15,6 +14,16 @@ public class MainClass implements ActionListener,MouseListener
 	//String connectionString="jdbc:sqlserver://DESKTOP-C774PUO;database=storage;trustServerCertificate=true;user=sa;password=CPtis2024";
 	
 	int loggedUser;
+	
+	public static final int background=0;
+	public static final int foreground=1;
+	public static final int selected=2;
+	public static final int red=0;
+	public static final int darkRed=1;
+	
+	Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
+	int screenWidth=(int)screenSize.getWidth();
+	int screenHeight=(int)screenSize.getHeight();
 	
 	public boolean loginSendSuccessful()
 	{
@@ -180,7 +189,6 @@ public class MainClass implements ActionListener,MouseListener
 			String checkStorages="select * from storageInfo";
 			ResultSet rs=stmt.executeQuery(checkStorages);
 			while(rs.next()) {
-				System.out.println(rs.getString("creator"));
 				if(loggedUser==Integer.parseInt(rs.getString("creator"))) {
 					return true;
 				}
@@ -225,13 +233,7 @@ public class MainClass implements ActionListener,MouseListener
 	Color[] darkTheme={new Color(18,20,32),new Color(44,43,60),new Color(64,63,76)};
 	
 	Color[] reds={new Color(200,30,30),new Color(175,0,0)};
-	
-	int background=0;
-	int foreground=1;
-	int selected=2;
-	
-	int red=0;
-	int darkRed=1;
+
 	
 	String theme="darkBlueTheme";
 	
@@ -327,32 +329,34 @@ public class MainClass implements ActionListener,MouseListener
 		mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.add(boxRemover);
-		boxRemover.setBounds(0,0,0,0);
+			boxRemover.setBounds(0,0,0,0);
 		mainFrame.add(mainPanel);
 
 		titlebarPanel.setLayout(null);
-		titlebarPanel.setBounds(0,0,1366,57);
+		titlebarPanel.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		titlebarPanel.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
 		titlebarPanel.add(logo);
-		logo.setBounds(15,3,50,50);
+			logo.setBounds(15,3,50,50);
 		bConta.setIcon(new ImageIcon("account icon 50.png"));
 		bConta.setBounds(1250,0,57,57);
 		bConta.setOpaque(false);
 		bConta.setContentAreaFilled(false);
 		bConta.setBorder(null);
 		titlebarPanel.add(close);
-		close.setBounds(1309,0,57,57);
-		close.setContentAreaFilled(false);
-		close.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		close.setBorder(null);
-		close.addActionListener(this);
-		close.addMouseListener(this);
+			close.setBounds(1309,0,57,57);
+			close.setContentAreaFilled(false);
+			close.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			close.setBorder(null);
+			close.addActionListener(this);
+			close.addMouseListener(this);
+		
 		bConta.addActionListener(this);
 		bConta.addMouseListener(this);
 		titlebarPanel.setVisible(true);
 		
+		
 		mainPanel.setLayout(c);
-		mainPanel.setBounds(0,57,1366,711);
+		mainPanel.setBounds(screenHeight*0,(int)(screenHeight*0.07421875),screenWidth,(int)(screenHeight*92.578125));
 		mainPanel.add("chooseLoginPanel",chooseLoginPanel);
 		mainPanel.add("signUpPanel",signUpPanel);
 		mainPanel.add("loginPanel",loginPanel);
@@ -360,199 +364,207 @@ public class MainClass implements ActionListener,MouseListener
 		mainPanel.add("createStoragePanel",createStoragePanel);
 		mainPanel.setVisible(true);
 		
-		actualPanel=chooseLoginPanel;
-		actualPanel.setBounds(0,57,1366,711);
+		
+		actualPanel=chooseLoginPanel; 
+		actualPanel.setBounds(screenHeight*0,(int)(screenHeight*0.07421875),screenWidth,(int)(screenHeight*92.578125));
 		actualPanel.setLayout(null);
 		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+		actualPanel.setLayout(null);
 		actualPanel.add(chooseLoginPaneLogo);
-		chooseLoginPaneLogo.setBounds(504,77,355,309);
+			chooseLoginPaneLogo.setBounds((int)(screenWidth*36.896046852122986),(int)((screenHeight-57)*10.026041666666668),(int)(screenWidth*25.988286969253295),(int)((screenHeight-57)*40.234375));
 		actualPanel.add(signUpText);
-		signUpText.setBounds(502,453,361,57);
-		signUpText.setFont(new Font("SF Pro Display",Font.BOLD,24));
-		signUpText.setHorizontalAlignment(SwingConstants.CENTER);
-		signUpText.setVerticalAlignment(SwingConstants.CENTER);
-		signUpText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			signUpText.setBounds(502,453,361,57);
+			signUpText.setFont(new Font("SF Pro Display",Font.BOLD,24));
+			signUpText.setHorizontalAlignment(SwingConstants.CENTER);
+			signUpText.setVerticalAlignment(SwingConstants.CENTER);
+			signUpText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		actualPanel.add(signUp);
-		signUp.setBounds(502,453,361,57);
-		signUp.setContentAreaFilled(false);
-		signUp.setOpaque(false);
-		signUp.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
-		signUp.setBorder(null);
+			signUp.setBounds(502,453,361,57);
+			signUp.setContentAreaFilled(false);
+			signUp.setOpaque(false);
+			signUp.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
+			signUp.setBorder(null);
 		actualPanel.add(loginText);
-		loginText.setBounds(502,538,361,57);
-		loginText.setFont(new Font("SF Pro Display",Font.BOLD,24));
-		loginText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		loginText.setHorizontalAlignment(SwingConstants.CENTER);
-		loginText.setVerticalAlignment(SwingConstants.CENTER);
+			loginText.setBounds(502,538,361,57);
+			loginText.setFont(new Font("SF Pro Display",Font.BOLD,24));
+			loginText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			loginText.setHorizontalAlignment(SwingConstants.CENTER);
+			loginText.setVerticalAlignment(SwingConstants.CENTER);
 		actualPanel.add(login);
-		login.setBounds(502,538,361,57);
-		login.setBorder(null);
-		login.setContentAreaFilled(false);
-		login.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
+			login.setBounds(502,538,361,57);
+			login.setBorder(null);
+			login.setContentAreaFilled(false);
+			login.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
+		
 		signUp.addActionListener(this);
 		signUp.addMouseListener(this);
 		login.addActionListener(this);
 		login.addMouseListener(this);
 		
+		
 		actualPanel=signUpPanel;
 		actualPanel.setLayout(null);
 		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		actualPanel.add(suVoltarChooseLogin);
-		suVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
-		suVoltarChooseLogin.setBackground(null);
-		suVoltarChooseLogin.setBorder(null);
-		suVoltarChooseLogin.setBounds(83,33,42,41);
+			suVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
+			suVoltarChooseLogin.setBackground(null);
+			suVoltarChooseLogin.setBorder(null);
+			suVoltarChooseLogin.setBounds(83,33,42,41);
 		actualPanel.add(signUpPaneLogo);
-		signUpPaneLogo.setBounds(576,51,208,180);
+			signUpPaneLogo.setBounds(576,51,208,180);
 		actualPanel.add(signUpPaneTitle);
-		signUpPaneTitle.setBounds(531,267,306,57);
-		signUpPaneTitle.setOpaque(true);
-		signUpPaneTitle.setBorder(null);
-		signUpPaneTitle.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
-		signUpPaneTitle.setFont(new Font("SF Pro Display",Font.BOLD,24));
-		signUpPaneTitle.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		signUpPaneTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		signUpPaneTitle.setVerticalAlignment(SwingConstants.CENTER);
+			signUpPaneTitle.setBounds(531,267,306,57);
+			signUpPaneTitle.setOpaque(true);
+			signUpPaneTitle.setBorder(null);
+			signUpPaneTitle.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			signUpPaneTitle.setFont(new Font("SF Pro Display",Font.BOLD,24));
+			signUpPaneTitle.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			signUpPaneTitle.setHorizontalAlignment(SwingConstants.CENTER);
+			signUpPaneTitle.setVerticalAlignment(SwingConstants.CENTER);
 		actualPanel.add(lSignUpUsername);
-		lSignUpUsername.setBounds(267,337,386,44);
-		lSignUpUsername.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-		lSignUpUsername.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lSignUpUsername.setBounds(267,337,386,44);
+			lSignUpUsername.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lSignUpUsername.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
 		actualPanel.add(inSignUpUsername);
-		inSignUpUsername.setBounds(254,372,386,44);
-		inSignUpUsername.setMargin(new Insets(10,10,10,10));
-		inSignUpUsername.setBorder(border);
-		inSignUpUsername.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		inSignUpUsername.setFont(new Font("SF Pro Display",Font.BOLD,18));
-		inSignUpUsername.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
+			inSignUpUsername.setBounds(254,372,386,44);
+			inSignUpUsername.setMargin(new Insets(10,10,10,10));
+			inSignUpUsername.setBorder(border);
+			inSignUpUsername.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inSignUpUsername.setFont(new Font("SF Pro Display",Font.BOLD,18));
+			inSignUpUsername.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suUsernameErrorLog);
-		suUsernameErrorLog.setBounds(267,403,386,44);
-		suUsernameErrorLog.setForeground(reds[darkRed]);
+			suUsernameErrorLog.setBounds(267,403,386,44);
+			suUsernameErrorLog.setForeground(reds[darkRed]);
 		actualPanel.add(lSignUpEmail);
-		lSignUpEmail.setBounds(267,426,386,44);
-		lSignUpEmail.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-		lSignUpEmail.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lSignUpEmail.setBounds(267,426,386,44);
+			lSignUpEmail.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lSignUpEmail.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
 		actualPanel.add(inSignUpEmail);
-		inSignUpEmail.setBounds(254,461,386,44);
-		inSignUpEmail.setMargin(new Insets(10,10,10,10));
-		inSignUpEmail.setBorder(border);
-		inSignUpEmail.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		inSignUpEmail.setFont(new Font("SF Pro Display",Font.BOLD,18));
-		inSignUpEmail.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
+			inSignUpEmail.setBounds(254,461,386,44);
+			inSignUpEmail.setMargin(new Insets(10,10,10,10));
+			inSignUpEmail.setBorder(border);
+			inSignUpEmail.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inSignUpEmail.setFont(new Font("SF Pro Display",Font.BOLD,18));
+			inSignUpEmail.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suEmailErrorLog);
-		suEmailErrorLog.setBounds(267,492,386,44);
-		suEmailErrorLog.setForeground(reds[darkRed]);
+			suEmailErrorLog.setBounds(267,492,386,44);
+			suEmailErrorLog.setForeground(reds[darkRed]);
 		actualPanel.add(lSignUpPhone);
-		lSignUpPhone.setBounds(742,337,386,44);
-		lSignUpPhone.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-		lSignUpPhone.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lSignUpPhone.setBounds(742,337,386,44);
+			lSignUpPhone.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lSignUpPhone.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
 		actualPanel.add(inSignUpPhone);
-		inSignUpPhone.setBounds(729,372,386,44);
-		inSignUpPhone.setMargin(new Insets(10,10,10,10));
-		inSignUpPhone.setBorder(border);
-		inSignUpPhone.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		inSignUpPhone.setFont(new Font("SF Pro Display",Font.BOLD,18));
-		inSignUpPhone.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
+			inSignUpPhone.setBounds(729,372,386,44);
+			inSignUpPhone.setMargin(new Insets(10,10,10,10));
+			inSignUpPhone.setBorder(border);
+			inSignUpPhone.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inSignUpPhone.setFont(new Font("SF Pro Display",Font.BOLD,18));
+			inSignUpPhone.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suPhoneErrorLog);
-		suPhoneErrorLog.setBounds(742,403,386,44);
-		suPhoneErrorLog.setForeground(reds[darkRed]);
+			suPhoneErrorLog.setBounds(742,403,386,44);
+			suPhoneErrorLog.setForeground(reds[darkRed]);
 		actualPanel.add(lSignUpPassword);
-		lSignUpPassword.setBounds(742,426,386,44);
-		lSignUpPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-		lSignUpPassword.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lSignUpPassword.setBounds(742,426,386,44);
+			lSignUpPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lSignUpPassword.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
 		actualPanel.add(inSignUpPassword);
-		inSignUpPassword.setBounds(729,461,386,44);
-		inSignUpPassword.setMargin(new Insets(10,10,10,10));
-		inSignUpPassword.setBorder(border);
-		inSignUpPassword.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		inSignUpPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-		inSignUpPassword.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
+			inSignUpPassword.setBounds(729,461,386,44);
+			inSignUpPassword.setMargin(new Insets(10,10,10,10));
+			inSignUpPassword.setBorder(border);
+			inSignUpPassword.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inSignUpPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			inSignUpPassword.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suPasswordErrorLog);
-		suPasswordErrorLog.setBounds(742,492,386,44);
-		suPasswordErrorLog.setForeground(reds[darkRed]);
+			suPasswordErrorLog.setBounds(742,492,386,44);
+			suPasswordErrorLog.setForeground(reds[darkRed]);
 		actualPanel.add(signUpSendText);
-		signUpSendText.setBounds(531,551,306,57);
-		signUpSendText.setFont(new Font("SF Pro Display",Font.BOLD,24));
-		signUpSendText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		signUpSendText.setHorizontalAlignment(SwingConstants.CENTER);
-		signUpSendText.setVerticalAlignment(SwingConstants.CENTER);
+			signUpSendText.setBounds(531,551,306,57);
+			signUpSendText.setFont(new Font("SF Pro Display",Font.BOLD,24));
+			signUpSendText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			signUpSendText.setHorizontalAlignment(SwingConstants.CENTER);
+			signUpSendText.setVerticalAlignment(SwingConstants.CENTER);
 		actualPanel.add(signUpSend);
-		signUpSend.setBounds(531,551,306,57);
-		signUpSend.setOpaque(false);
-		signUpSend.setContentAreaFilled(false);
-		signUpSend.setBorder(null);
-		signUpSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
+			signUpSend.setBounds(531,551,306,57);
+			signUpSend.setOpaque(false);
+			signUpSend.setContentAreaFilled(false);
+			signUpSend.setBorder(null);
+			signUpSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
+		
 		suVoltarChooseLogin.addActionListener(this);
 		suVoltarChooseLogin.addMouseListener(this);
 		signUpSend.addActionListener(this);
 		signUpSend.addMouseListener(this);
 
+		
 		actualPanel=loginPanel;
 		actualPanel.setLayout(null);
 		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		actualPanel.add(lVoltarChooseLogin);
-		lVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
-		lVoltarChooseLogin.setBackground(null);
-		lVoltarChooseLogin.setBorder(null);
-		lVoltarChooseLogin.setBounds(85,33,42,41);
+			lVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
+			lVoltarChooseLogin.setBackground(null);
+			lVoltarChooseLogin.setBorder(null);
+			lVoltarChooseLogin.setBounds(85,33,42,41);
 		actualPanel.add(loginPaneLogo);
-		loginPaneLogo.setBounds(576,51,208,180);
+			loginPaneLogo.setBounds(576,51,208,180);
 		actualPanel.add(loginPaneTitle);
-		loginPaneTitle.setBounds(531,267,306,57);
-		loginPaneTitle.setOpaque(true);
-		loginPaneTitle.setBorder(null);
-		loginPaneTitle.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
-		loginPaneTitle.setFont(new Font("SF Pro Display",Font.BOLD,24));
-		loginPaneTitle.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		loginPaneTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		loginPaneTitle.setVerticalAlignment(SwingConstants.CENTER);
+			loginPaneTitle.setBounds(531,267,306,57);
+			loginPaneTitle.setOpaque(true);
+			loginPaneTitle.setBorder(null);
+			loginPaneTitle.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			loginPaneTitle.setFont(new Font("SF Pro Display",Font.BOLD,24));
+			loginPaneTitle.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			loginPaneTitle.setHorizontalAlignment(SwingConstants.CENTER);
+			loginPaneTitle.setVerticalAlignment(SwingConstants.CENTER);
 		actualPanel.add(lLoginUsername);
-		lLoginUsername.setBounds(267,355,386,44);
-		lLoginUsername.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-		lLoginUsername.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lLoginUsername.setBounds(267,355,386,44);
+			lLoginUsername.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lLoginUsername.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
 		actualPanel.add(inLoginUsername);
-		inLoginUsername.setBounds(254,390,386,44);
-		inLoginUsername.setMargin(new Insets(10,10,10,10));
-		inLoginUsername.setBorder(border);
-		inLoginUsername.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		inLoginUsername.setFont(new Font("SF Pro Display",Font.BOLD,18));
-		inLoginUsername.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
+			inLoginUsername.setBounds(254,390,386,44);
+			inLoginUsername.setMargin(new Insets(10,10,10,10));
+			inLoginUsername.setBorder(border);
+			inLoginUsername.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inLoginUsername.setFont(new Font("SF Pro Display",Font.BOLD,18));
+			inLoginUsername.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
 		actualPanel.add(lUsernameErrorLog);
-		lUsernameErrorLog.setBounds(267,421,386,44);
-		lUsernameErrorLog.setForeground(reds[darkRed]);
+			lUsernameErrorLog.setBounds(267,421,386,44);
+			lUsernameErrorLog.setForeground(reds[darkRed]);
 		actualPanel.add(lLoginPassword);
-		lLoginPassword.setBounds(742,355,386,44);
-		lLoginPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-		lLoginPassword.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lLoginPassword.setBounds(742,355,386,44);
+			lLoginPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lLoginPassword.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
 		actualPanel.add(inLoginPassword);
-		inLoginPassword.setBounds(729,390,386,44);
-		inLoginPassword.setMargin(new Insets(10,10,10,10));
-		inLoginPassword.setBorder(border);
-		inLoginPassword.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		inLoginPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-		inLoginPassword.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
+			inLoginPassword.setBounds(729,390,386,44);
+			inLoginPassword.setMargin(new Insets(10,10,10,10));
+			inLoginPassword.setBorder(border);
+			inLoginPassword.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inLoginPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			inLoginPassword.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(lPasswordErrorLog);
-		lPasswordErrorLog.setBounds(729,421,386,44);
-		lPasswordErrorLog.setForeground(reds[darkRed]);
+			lPasswordErrorLog.setBounds(729,421,386,44);
+			lPasswordErrorLog.setForeground(reds[darkRed]);
 		actualPanel.add(lGeneralErrorLog);
-		lGeneralErrorLog.setBounds(531,501,306,30);
-		lGeneralErrorLog.setForeground(reds[darkRed]);
-		lGeneralErrorLog.setHorizontalAlignment(SwingConstants.CENTER);
+			lGeneralErrorLog.setBounds(531,501,306,30);
+			lGeneralErrorLog.setForeground(reds[darkRed]);
+			lGeneralErrorLog.setHorizontalAlignment(SwingConstants.CENTER);
 		actualPanel.add(loginSendText);
-		loginSendText.setBounds(531,531,306,57);
-		loginSendText.setFont(new Font("SF Pro Display",Font.BOLD,24));
-		loginSendText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		loginSendText.setHorizontalAlignment(SwingConstants.CENTER);
-		loginSendText.setVerticalAlignment(SwingConstants.CENTER);
+			loginSendText.setBounds(531,531,306,57);
+			loginSendText.setFont(new Font("SF Pro Display",Font.BOLD,24));
+			loginSendText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			loginSendText.setHorizontalAlignment(SwingConstants.CENTER);
+			loginSendText.setVerticalAlignment(SwingConstants.CENTER);
 		actualPanel.add(loginSend);
-		loginSend.setBounds(531,531,306,57);
-		loginSend.setOpaque(false);
-		loginSend.setContentAreaFilled(false);
-		loginSend.setBorder(null);
-		loginSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
+			loginSend.setBounds(531,531,306,57);
+			loginSend.setOpaque(false);
+			loginSend.setContentAreaFilled(false);
+			loginSend.setBorder(null);
+			loginSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
+		
 		lVoltarChooseLogin.addActionListener(this);
 		lVoltarChooseLogin.addMouseListener(this);
 		loginSend.addActionListener(this);
 		loginSend.addMouseListener(this);
+		
 		
 		actualPanel=createStoragePanel;
 		actualPanel.setLayout(new FlowLayout());
@@ -566,15 +578,20 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel.setLayout(null);
 		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		actualPanel.add(sidePanel);
-		sidePanel.setBounds(0,0,300,711);
-		sidePanel.setBorder(BorderFactory.createLineBorder((theme.equals("lightTheme")?lightTheme[selected]:(theme.equals("darkTheme")?darkTheme[selected]:(theme.equals("darkBlueTheme")?darkBlueTheme[selected]:(theme.equals("lightBlueTheme")?lightBlueTheme[selected]:(theme.equals("greenTheme")?greenTheme[selected]:purpleTheme[selected]))))),1));
-		sidePanel.setSize(300,711);
-		sidePanel.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			sidePanel.setBounds(0,0,300,711);
+			sidePanel.setBorder(BorderFactory.createLineBorder((theme.equals("lightTheme")?lightTheme[selected]:(theme.equals("darkTheme")?darkTheme[selected]:(theme.equals("darkBlueTheme")?darkBlueTheme[selected]:(theme.equals("lightBlueTheme")?lightBlueTheme[selected]:(theme.equals("greenTheme")?greenTheme[selected]:purpleTheme[selected]))))),1));
+			sidePanel.setSize(300,711);
+			sidePanel.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
 		actualPanel.add(searchBar);
+			searchBar.setBounds(600,70,500,40);
+			searchBar.setBorder(border);
+			searchBar.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			searchBar.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			searchBar.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(searchButton);
 		
 		
-		chooseLogin();
+		c.show(mainPanel,"chooseLoginPanel");
 		
 		
 		mainFrame.setVisible(true);
@@ -594,25 +611,26 @@ public class MainClass implements ActionListener,MouseListener
 		errorTitlebarPanel.setBounds(0,0,500,57);
 		errorTitlebarPanel.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
 		errorTitlebarPanel.add(errorLogo);
-		errorLogo.setBounds(15,3,50,50);
+			errorLogo.setBounds(15,3,50,50);
 		errorTitlebarPanel.add(errorClose);
-		errorClose.setBounds(443,0,57,57);
-		errorClose.setContentAreaFilled(false);
-		errorClose.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
-		errorClose.setBorder(null);
+			errorClose.setBounds(443,0,57,57);
+			errorClose.setContentAreaFilled(false);
+			errorClose.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			errorClose.setBorder(null);
 		
 		errorPanel.setLayout(null);
 		errorPanel.setBounds(0,57,500,443);
 		errorPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		errorPanel.add(errorLogTextArea);
-		errorLogTextArea.setBounds(50,20,400,363);
-		errorLogTextArea.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			errorLogTextArea.setBounds(50,20,400,363);
+			errorLogTextArea.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
 		errorPanel.add(confirmButton);
-		confirmButton.setBounds(220,388,60,40);
-		confirmButton.setBorder(null);
-		confirmButton.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
-		confirmButton.setFont(new Font("SF Pro Display",Font.BOLD,18));
-		confirmButton.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			confirmButton.setBounds(220,388,60,40);
+			confirmButton.setBorder(null);
+			confirmButton.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			confirmButton.setFont(new Font("SF Pro Display",Font.BOLD,18));
+			confirmButton.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+		
 		errorClose.addActionListener(this);
 		errorClose.addMouseListener(this);
 		confirmButton.addActionListener(this);
@@ -626,29 +644,29 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==signUp) {
-			signUp();				
+			c.show(mainPanel,"signUpPanel");
 		}
 		
 		if(e.getSource()==signUpSend&&signUpSendSuccessful()) {
-			chooseLogin();
+			c.show(mainPanel,"chooseLoginPanel");
 		}
 		
 		if(e.getSource()==login) {
-			login();
+			c.show(mainPanel,"loginPanel");
 		}
 		
 		if(e.getSource()==loginSend&&loginSendSuccessful()) {
 			titlebarPanel.add(bConta);
 			if(userHasStorage()) {
-				mainStorage();
+				c.show(mainPanel,"mainStoragePanel");
 			}
 			else {
-				createStorage();
+				c.show(mainPanel,"createStoragePanel");
 			}
 		}
 		
 		if(e.getSource()==lVoltarChooseLogin||e.getSource()==suVoltarChooseLogin) {
-			chooseLogin();
+			c.show(mainPanel,"chooseLoginPanel");
 		}
 		
 		
@@ -755,30 +773,5 @@ public class MainClass implements ActionListener,MouseListener
 	public static void main(String[] args)
 	{
 		new MainClass();
-	}
-	
-	public void chooseLogin()
-	{
-		c.show(mainPanel,"chooseLoginPanel");
-	}
-	
-	public void signUp()
-	{
-		c.show(mainPanel,"signUpPanel");
-	}
-	
-	public void login()
-	{
-		c.show(mainPanel,"loginPanel");
-	}
-	
-	public void createStorage()
-	{
-		c.show(mainPanel,"createStoragePanel");
-	}
-	
-	public void mainStorage()
-	{
-		c.show(mainPanel,"mainStoragePanel");
 	}
 }
