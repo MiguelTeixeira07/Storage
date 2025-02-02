@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.text.JTextComponent;
 public class MainClass implements ActionListener,MouseListener
 {	
 	//Portatil
@@ -25,8 +26,7 @@ public class MainClass implements ActionListener,MouseListener
 	int screenWidth=(int)screenSize.getWidth();
 	int screenHeight=(int)screenSize.getHeight();
 	
-	public boolean loginSendSuccessful()
-	{
+	public boolean loginSendSuccessful() {
 		try(Connection c=DriverManager.getConnection(connectionString))
 		{
 			Statement stmt=c.createStatement();
@@ -73,8 +73,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 	}
 	
-	public boolean checkLoginFields()
-	{
+	public boolean checkLoginFields() {
 		if(inLoginUsername.getText().isEmpty()) {
 			lUsernameErrorLog.setText("Campo obrigatório");
 			return false;
@@ -87,8 +86,7 @@ public class MainClass implements ActionListener,MouseListener
 		return true;
 	}
 	
-	public boolean signUpSendSuccessful()
-	{
+	public boolean signUpSendSuccessful() {
 		if(checkSignUpFields()&&(!userExists())) {
 			try(Connection c=DriverManager.getConnection(connectionString)) {
 				Statement stmt=c.createStatement();
@@ -107,8 +105,7 @@ public class MainClass implements ActionListener,MouseListener
 		return false;
 	}
 	
-	public boolean userExists()
-	{
+	public boolean userExists() {
 		try(Connection c=DriverManager.getConnection(connectionString))
 		{
 			Statement stmt=c.createStatement();
@@ -142,8 +139,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 	}
 	
-	public boolean checkSignUpFields()
-	{
+	public boolean checkSignUpFields() {
 		if(inSignUpUsername.getText().isEmpty()) {
 			suUsernameErrorLog.setText("Campo obricatório");
 			return false;
@@ -182,8 +178,7 @@ public class MainClass implements ActionListener,MouseListener
 		return true;
 	}
 	
-	public boolean userHasStorage()
-	{
+	public boolean userHasStorage() {
 		try(Connection c=DriverManager.getConnection(connectionString)) {
 			Statement stmt=c.createStatement();
 			String checkStorages="select * from storageInfo";
@@ -201,20 +196,16 @@ public class MainClass implements ActionListener,MouseListener
 		}
 	}
 	
-	public int numRows(String table)
-	{
+	public boolean storageSendSuccessful() {
 		try(Connection c=DriverManager.getConnection(connectionString)) {
 			Statement stmt=c.createStatement();
-			String amountOfStorages="select count(*) from"+table;
-			ResultSet rs=stmt.executeQuery(amountOfStorages);
-			rs.next();
-		    int count=rs.getInt(1);
-			return count;
+			String newStorage="insert into storageInfo(nome,comprimento,largura,numPisos,tipo,creator)values('"+inStorageName.getText()+"','"+Integer.parseInt(inStorageLength.getText())+"','"+Integer.parseInt(inStorageWidth.getText())+"',"+Integer.parseInt(inNumPisos.getText())+",'"+inStorageType.getSelectedIndex()+"',"+loggedUser+");";
+			stmt.executeUpdate(newStorage);
+			return true;
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
-			System.exit(0);
-			return 0;
+			return false;			
 		}
 	}
 	
@@ -233,33 +224,42 @@ public class MainClass implements ActionListener,MouseListener
 	Color[] darkTheme={new Color(18,20,32),new Color(44,43,60),new Color(64,63,76)};
 	
 	Color[] reds={new Color(200,30,30),new Color(175,0,0)};
-
+	
 	
 	String theme="darkBlueTheme";
 	
 	
+	ImageIcon biggestLogo=new ImageIcon((theme.equals("lightTheme")?"MT STORAGE light.png":(theme.equals("darkTheme")?"MT STORAGE dark.png":(theme.equals("darkBlueTheme")?"MT STORAGE darkBlue.png":(theme.equals("lightBlueTheme")?"MT STORAGE lightBlue.png":(theme.equals("greenTheme")?"MT STORAGE green.png":"MT STORAGE.png"))))));
+	ImageIcon mediumLogo=new ImageIcon((theme.equals("lightTheme")?"MT STORAGE signUp light.png":(theme.equals("darkTheme")?"MT STORAGE signUp dark.png":(theme.equals("darkBlueTheme")?"MT STORAGE signUp darkBlue.png":(theme.equals("lightBlueTheme")?"MT STORAGE signUp lightBlue.png":(theme.equals("greenTheme")?"MT STORAGE signUp green.png":"MT STORAGE signUp.png"))))));
+	ImageIcon bigRoundedButton=new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png")))));
+	ImageIcon smallRoundedButton=new ImageIcon();
+	ImageIcon seta=new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png"))))));
+	
+	Color themedForeground=(theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground])))));
+	Color themedBackground=(theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background])))));
+	Color themedSelected=(theme.equals("lightTheme")?lightTheme[selected]:(theme.equals("darkTheme")?darkTheme[selected]:(theme.equals("darkBlueTheme")?darkBlueTheme[selected]:(theme.equals("lightBlueTheme")?lightBlueTheme[selected]:(theme.equals("greenTheme")?greenTheme[selected]:purpleTheme[selected])))));
+	
 	JFrame mainFrame=new JFrame("Storage");
-		JButton boxRemover=new JButton();
 	JPanel mainPanel=new JPanel();
 	
 		JPanel titlebarPanel=new JPanel();
-			JLabel logo=new JLabel(new ImageIcon("STORAGE Frame Icon tiny.png"));
 			JButton close=new JButton(new ImageIcon("closeIcon colored transparent.png"));
 			JButton bConta=new JButton();
+			JButton menuButton=new JButton(new ImageIcon("Haburguer button dark.png"));
 		
 		JPanel chooseLoginPanel=new JPanel();
-			JLabel chooseLoginPaneLogo=new JLabel(new ImageIcon((theme.equals("lightTheme")?"MT STORAGE light.png":(theme.equals("darkTheme")?"MT STORAGE dark.png":(theme.equals("darkBlueTheme")?"MT STORAGE darkBlue.png":(theme.equals("lightBlueTheme")?"MT STORAGE lightBlue.png":(theme.equals("greenTheme")?"MT STORAGE green.png":"MT STORAGE.png")))))));
+			JLabel chooseLoginPaneLogo=new JLabel(biggestLogo);
 			JButton signUp=new JButton();
 			JLabel signUpText=new JLabel("Criar conta");
 			JButton login=new JButton();
 			JLabel loginText=new JLabel("Login");
 			
 		JPanel signUpPanel=new JPanel();
-			Border line=new LineBorder((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))),2);
+			Border line=new LineBorder(themedForeground,2);
 			Border empty=new EmptyBorder(0, 10, 0, 0);
 			CompoundBorder border = new CompoundBorder(line, empty);
 			JButton suVoltarChooseLogin=new JButton();
-			JLabel signUpPaneLogo=new JLabel(new ImageIcon((theme.equals("lightTheme")?"MT STORAGE signUp light.png":(theme.equals("darkTheme")?"MT STORAGE signUp dark.png":(theme.equals("darkBlueTheme")?"MT STORAGE signUp darkBlue.png":(theme.equals("lightBlueTheme")?"MT STORAGE signUp lightBlue.png":(theme.equals("greenTheme")?"MT STORAGE signUp green.png":"MT STORAGE signUp.png")))))));
+			JLabel signUpPaneLogo=new JLabel(mediumLogo);
 			JLabel signUpPaneTitle=new JLabel("Criar conta");
 			JLabel lSignUpUsername=new JLabel("Nome de utilizador");
 			JTextField inSignUpUsername=new JTextField(15);
@@ -278,7 +278,7 @@ public class MainClass implements ActionListener,MouseListener
 		
 		JPanel loginPanel=new JPanel();
 			JButton lVoltarChooseLogin=new JButton();
-			JLabel loginPaneLogo=new JLabel(new ImageIcon((theme.equals("lightTheme")?"MT STORAGE signUp light.png":(theme.equals("darkTheme")?"MT STORAGE signUp dark.png":(theme.equals("darkBlueTheme")?"MT STORAGE signUp darkBlue.png":(theme.equals("lightBlueTheme")?"MT STORAGE signUp lightBlue.png":(theme.equals("greenTheme")?"MT STORAGE signUp green.png":"MT STORAGE signUp.png")))))));
+			JLabel loginPaneLogo=new JLabel(mediumLogo);
 			JLabel loginPaneTitle=new JLabel("Iniciar sessão");
 			JLabel lLoginUsername=new JLabel("Nome de utilizador");
 			JTextField inLoginUsername=new JTextField(15);
@@ -294,10 +294,17 @@ public class MainClass implements ActionListener,MouseListener
 		JPanel createStoragePanel=new JPanel();
 			JLabel lStorageName=new JLabel("Nome da Storage");
 			JTextField inStorageName=new JTextField(15);
-			JLabel lStorageSize=new JLabel("Tamanho da Storage");
-			String[] sizes={"Pequeno","Médio","Grande"};
-			JComboBox inStorageSize=new JComboBox(sizes);
-			JButton storageSend=new JButton("Criar Storage");
+			JLabel lStorageLength=new JLabel("Comprimento da Storage");
+			JTextField inStorageLength=new JTextField(4);
+			JLabel lStorageWidth=new JLabel("Largura da Storage");
+			JTextField inStorageWidth=new JTextField(4);
+			JLabel lNumPisos=new JLabel("Número de pisos da Storage");
+			JTextField inNumPisos=new JTextField(2);
+			JLabel lStorageType=new JLabel("Número de pisos da Storage");
+			String[] tipos={"  Armazém","  Laboratório","  Moradia","  Outro"};
+			JComboBox inStorageType=new JComboBox(tipos);
+			JLabel storageSendText=new JLabel("Criar Storage");
+			JButton storageSend=new JButton();
 			
 		JPanel mainStoragePanel=new JPanel();
 			JPanel sidePanel=new JPanel();
@@ -328,27 +335,35 @@ public class MainClass implements ActionListener,MouseListener
 		mainFrame.setSize(1366,768);
 		mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.add(boxRemover);
-			boxRemover.setBounds(0,0,0,0);
 		mainFrame.add(mainPanel);
 
 		titlebarPanel.setLayout(null);
 		titlebarPanel.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		titlebarPanel.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
-		titlebarPanel.add(logo);
-			logo.setBounds(15,3,50,50);
-		bConta.setIcon(new ImageIcon("account icon 50.png"));
-		bConta.setBounds(1250,0,57,57);
-		bConta.setOpaque(false);
-		bConta.setContentAreaFilled(false);
-		bConta.setBorder(null);
+		titlebarPanel.setBackground(themedForeground);
+		titlebarPanel.add(bConta);
+			bConta.setFocusable(false);
+			bConta.setIcon(new ImageIcon("account icon 50.png"));
+			bConta.setBounds(1250,0,57,57);
+			bConta.setOpaque(false);
+			bConta.setContentAreaFilled(false);
+			bConta.setBorder(null);
+			bConta.setEnabled(false);
+			bConta.setVisible(false);
 		titlebarPanel.add(close);
+		close.setFocusable(false);
 			close.setBounds(1309,0,57,57);
 			close.setContentAreaFilled(false);
-			close.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			close.setForeground(themedBackground);
 			close.setBorder(null);
 			close.addActionListener(this);
 			close.addMouseListener(this);
+		titlebarPanel.add(menuButton);
+			menuButton.setFocusable(false);
+			menuButton.setBounds(15,3,50,50);
+			menuButton.setBorder(null);
+			menuButton.setContentAreaFilled(false);
+			menuButton.addActionListener(this);
+			menuButton.addMouseListener(this);
 		
 		bConta.addActionListener(this);
 		bConta.addMouseListener(this);
@@ -368,33 +383,35 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel=chooseLoginPanel; 
 		actualPanel.setBounds(screenHeight*0,(int)(screenHeight*0.07421875),screenWidth,(int)(screenHeight*92.578125));
 		actualPanel.setLayout(null);
-		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+		actualPanel.setBackground(themedBackground);
 		actualPanel.setLayout(null);
 		actualPanel.add(chooseLoginPaneLogo);
-			chooseLoginPaneLogo.setBounds((int)(screenWidth*36.896046852122986),(int)((screenHeight-57)*10.026041666666668),(int)(screenWidth*25.988286969253295),(int)((screenHeight-57)*40.234375));
+			chooseLoginPaneLogo.setBounds((int)(screenWidth*0.36896046852122986),(int)((screenHeight-57)*0.10026041666666668),(int)(screenWidth*0.25988286969253295),(int)(screenHeight*0.40234375));
 		actualPanel.add(signUpText);
 			signUpText.setBounds(502,453,361,57);
 			signUpText.setFont(new Font("SF Pro Display",Font.BOLD,24));
 			signUpText.setHorizontalAlignment(SwingConstants.CENTER);
 			signUpText.setVerticalAlignment(SwingConstants.CENTER);
-			signUpText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			signUpText.setForeground(themedBackground);
 		actualPanel.add(signUp);
+			signUp.setFocusable(false);
 			signUp.setBounds(502,453,361,57);
 			signUp.setContentAreaFilled(false);
 			signUp.setOpaque(false);
-			signUp.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
+			signUp.setIcon(bigRoundedButton);
 			signUp.setBorder(null);
 		actualPanel.add(loginText);
 			loginText.setBounds(502,538,361,57);
 			loginText.setFont(new Font("SF Pro Display",Font.BOLD,24));
-			loginText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			loginText.setForeground(themedBackground);
 			loginText.setHorizontalAlignment(SwingConstants.CENTER);
 			loginText.setVerticalAlignment(SwingConstants.CENTER);
 		actualPanel.add(login);
+			login.setFocusable(false);
 			login.setBounds(502,538,361,57);
 			login.setBorder(null);
 			login.setContentAreaFilled(false);
-			login.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
+			login.setIcon(bigRoundedButton);
 		
 		signUp.addActionListener(this);
 		signUp.addMouseListener(this);
@@ -404,9 +421,9 @@ public class MainClass implements ActionListener,MouseListener
 		
 		actualPanel=signUpPanel;
 		actualPanel.setLayout(null);
-		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+		actualPanel.setBackground(themedBackground);
 		actualPanel.add(suVoltarChooseLogin);
-			suVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
+			suVoltarChooseLogin.setIcon(seta);
 			suVoltarChooseLogin.setBackground(null);
 			suVoltarChooseLogin.setBorder(null);
 			suVoltarChooseLogin.setBounds(83,33,42,41);
@@ -416,20 +433,20 @@ public class MainClass implements ActionListener,MouseListener
 			signUpPaneTitle.setBounds(531,267,306,57);
 			signUpPaneTitle.setOpaque(true);
 			signUpPaneTitle.setBorder(null);
-			signUpPaneTitle.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			signUpPaneTitle.setBackground(themedForeground);
 			signUpPaneTitle.setFont(new Font("SF Pro Display",Font.BOLD,24));
-			signUpPaneTitle.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			signUpPaneTitle.setForeground(themedBackground);
 			signUpPaneTitle.setHorizontalAlignment(SwingConstants.CENTER);
 			signUpPaneTitle.setVerticalAlignment(SwingConstants.CENTER);
 		actualPanel.add(lSignUpUsername);
 			lSignUpUsername.setBounds(267,337,386,44);
 			lSignUpUsername.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-			lSignUpUsername.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lSignUpUsername.setForeground(themedForeground);
 		actualPanel.add(inSignUpUsername);
 			inSignUpUsername.setBounds(254,372,386,44);
 			inSignUpUsername.setMargin(new Insets(10,10,10,10));
 			inSignUpUsername.setBorder(border);
-			inSignUpUsername.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inSignUpUsername.setBackground(themedBackground);
 			inSignUpUsername.setFont(new Font("SF Pro Display",Font.BOLD,18));
 			inSignUpUsername.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suUsernameErrorLog);
@@ -438,12 +455,12 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel.add(lSignUpEmail);
 			lSignUpEmail.setBounds(267,426,386,44);
 			lSignUpEmail.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-			lSignUpEmail.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lSignUpEmail.setForeground(themedForeground);
 		actualPanel.add(inSignUpEmail);
 			inSignUpEmail.setBounds(254,461,386,44);
 			inSignUpEmail.setMargin(new Insets(10,10,10,10));
 			inSignUpEmail.setBorder(border);
-			inSignUpEmail.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inSignUpEmail.setBackground(themedBackground);
 			inSignUpEmail.setFont(new Font("SF Pro Display",Font.BOLD,18));
 			inSignUpEmail.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suEmailErrorLog);
@@ -452,12 +469,12 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel.add(lSignUpPhone);
 			lSignUpPhone.setBounds(742,337,386,44);
 			lSignUpPhone.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-			lSignUpPhone.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lSignUpPhone.setForeground(themedForeground);
 		actualPanel.add(inSignUpPhone);
 			inSignUpPhone.setBounds(729,372,386,44);
 			inSignUpPhone.setMargin(new Insets(10,10,10,10));
 			inSignUpPhone.setBorder(border);
-			inSignUpPhone.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inSignUpPhone.setBackground(themedBackground);
 			inSignUpPhone.setFont(new Font("SF Pro Display",Font.BOLD,18));
 			inSignUpPhone.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suPhoneErrorLog);
@@ -466,12 +483,12 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel.add(lSignUpPassword);
 			lSignUpPassword.setBounds(742,426,386,44);
 			lSignUpPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-			lSignUpPassword.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lSignUpPassword.setForeground(themedForeground);
 		actualPanel.add(inSignUpPassword);
 			inSignUpPassword.setBounds(729,461,386,44);
 			inSignUpPassword.setMargin(new Insets(10,10,10,10));
 			inSignUpPassword.setBorder(border);
-			inSignUpPassword.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inSignUpPassword.setBackground(themedBackground);
 			inSignUpPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
 			inSignUpPassword.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(suPasswordErrorLog);
@@ -480,15 +497,16 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel.add(signUpSendText);
 			signUpSendText.setBounds(531,551,306,57);
 			signUpSendText.setFont(new Font("SF Pro Display",Font.BOLD,24));
-			signUpSendText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			signUpSendText.setForeground(themedBackground);
 			signUpSendText.setHorizontalAlignment(SwingConstants.CENTER);
 			signUpSendText.setVerticalAlignment(SwingConstants.CENTER);
 		actualPanel.add(signUpSend);
+			signUpSend.setFocusable(false);
 			signUpSend.setBounds(531,551,306,57);
 			signUpSend.setOpaque(false);
 			signUpSend.setContentAreaFilled(false);
 			signUpSend.setBorder(null);
-			signUpSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
+			signUpSend.setIcon(smallRoundedButton);
 		
 		suVoltarChooseLogin.addActionListener(this);
 		suVoltarChooseLogin.addMouseListener(this);
@@ -498,9 +516,9 @@ public class MainClass implements ActionListener,MouseListener
 		
 		actualPanel=loginPanel;
 		actualPanel.setLayout(null);
-		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+		actualPanel.setBackground(themedBackground);
 		actualPanel.add(lVoltarChooseLogin);
-			lVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
+			lVoltarChooseLogin.setIcon(seta);
 			lVoltarChooseLogin.setBackground(null);
 			lVoltarChooseLogin.setBorder(null);
 			lVoltarChooseLogin.setBounds(85,33,42,41);
@@ -510,20 +528,20 @@ public class MainClass implements ActionListener,MouseListener
 			loginPaneTitle.setBounds(531,267,306,57);
 			loginPaneTitle.setOpaque(true);
 			loginPaneTitle.setBorder(null);
-			loginPaneTitle.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			loginPaneTitle.setBackground(themedForeground);
 			loginPaneTitle.setFont(new Font("SF Pro Display",Font.BOLD,24));
-			loginPaneTitle.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			loginPaneTitle.setForeground(themedBackground);
 			loginPaneTitle.setHorizontalAlignment(SwingConstants.CENTER);
 			loginPaneTitle.setVerticalAlignment(SwingConstants.CENTER);
 		actualPanel.add(lLoginUsername);
 			lLoginUsername.setBounds(267,355,386,44);
 			lLoginUsername.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-			lLoginUsername.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lLoginUsername.setForeground(themedForeground);
 		actualPanel.add(inLoginUsername);
 			inLoginUsername.setBounds(254,390,386,44);
 			inLoginUsername.setMargin(new Insets(10,10,10,10));
 			inLoginUsername.setBorder(border);
-			inLoginUsername.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inLoginUsername.setBackground(themedBackground);
 			inLoginUsername.setFont(new Font("SF Pro Display",Font.BOLD,18));
 			inLoginUsername.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
 		actualPanel.add(lUsernameErrorLog);
@@ -532,14 +550,14 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel.add(lLoginPassword);
 			lLoginPassword.setBounds(742,355,386,44);
 			lLoginPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-			lLoginPassword.setForeground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			lLoginPassword.setForeground(themedForeground);
 		actualPanel.add(inLoginPassword);
 			inLoginPassword.setBounds(729,390,386,44);
 			inLoginPassword.setMargin(new Insets(10,10,10,10));
 			inLoginPassword.setBorder(border);
-			inLoginPassword.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			inLoginPassword.setBackground(themedBackground);
 			inLoginPassword.setFont(new Font("SF Pro Display",Font.PLAIN,18));
-			inLoginPassword.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
+			inLoginPassword.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
 		actualPanel.add(lPasswordErrorLog);
 			lPasswordErrorLog.setBounds(729,421,386,44);
 			lPasswordErrorLog.setForeground(reds[darkRed]);
@@ -550,16 +568,16 @@ public class MainClass implements ActionListener,MouseListener
 		actualPanel.add(loginSendText);
 			loginSendText.setBounds(531,531,306,57);
 			loginSendText.setFont(new Font("SF Pro Display",Font.BOLD,24));
-			loginSendText.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			loginSendText.setForeground(themedBackground);
 			loginSendText.setHorizontalAlignment(SwingConstants.CENTER);
 			loginSendText.setVerticalAlignment(SwingConstants.CENTER);
 		actualPanel.add(loginSend);
+			loginSend.setFocusable(false);
 			loginSend.setBounds(531,531,306,57);
 			loginSend.setOpaque(false);
 			loginSend.setContentAreaFilled(false);
 			loginSend.setBorder(null);
-			loginSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
-		
+			loginSend.setIcon(smallRoundedButton);
 		lVoltarChooseLogin.addActionListener(this);
 		lVoltarChooseLogin.addMouseListener(this);
 		loginSend.addActionListener(this);
@@ -567,25 +585,92 @@ public class MainClass implements ActionListener,MouseListener
 		
 		
 		actualPanel=createStoragePanel;
-		actualPanel.setLayout(new FlowLayout());
+		actualPanel.setLayout(null);
+		actualPanel.setBackground(themedBackground);
 		actualPanel.add(lStorageName);
+			lStorageName.setBounds(267,147,386,44);
+			lStorageName.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lStorageName.setForeground(themedForeground);
 		actualPanel.add(inStorageName);
-		actualPanel.add(lStorageSize);
-		actualPanel.add(inStorageSize);
+			inStorageName.setBounds(254,182,386,44);
+			inStorageName.setMargin(new Insets(10,10,10,10));
+			inStorageName.setBorder(border);
+			inStorageName.setBackground(themedBackground);
+			inStorageName.setFont(new Font("SF Pro Display",Font.BOLD,18));
+			inStorageName.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
+		actualPanel.add(lStorageLength);
+			lStorageLength.setBounds(742,147,386,44);
+			lStorageLength.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lStorageLength.setForeground(themedForeground);
+		actualPanel.add(inStorageLength);
+			inStorageLength.setBounds(729,182,386,44);
+			inStorageLength.setMargin(new Insets(10,10,10,10));
+			inStorageLength.setBorder(border);
+			inStorageLength.setBackground(themedBackground);
+			inStorageLength.setFont(new Font("SF Pro Display",Font.BOLD,18));
+			inStorageLength.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
+		actualPanel.add(lStorageWidth);
+			lStorageWidth.setBounds(267,236,386,44);
+			lStorageWidth.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lStorageWidth.setForeground(themedForeground);
+		actualPanel.add(inStorageWidth);
+			inStorageWidth.setBounds(254,271,386,44);
+			inStorageWidth.setMargin(new Insets(10,10,10,10));
+			inStorageWidth.setBorder(border);
+			inStorageWidth.setBackground(themedBackground);
+			inStorageWidth.setFont(new Font("SF Pro Display",Font.BOLD,18));
+			inStorageWidth.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
+		actualPanel.add(lNumPisos);
+			lNumPisos.setBounds(742,236,386,44);
+			lNumPisos.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lNumPisos.setForeground(themedForeground);
+		actualPanel.add(inNumPisos);
+			inNumPisos.setBounds(729,271,386,44);
+			inNumPisos.setMargin(new Insets(10,10,10,10));
+			inNumPisos.setBorder(border);
+			inNumPisos.setBackground(themedBackground);
+			inNumPisos.setFont(new Font("SF Pro Display",Font.BOLD,18));
+			inNumPisos.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
+		actualPanel.add(lStorageType);
+			lStorageType.setBounds(548,395,386,44);
+			lStorageType.setFont(new Font("SF Pro Display",Font.PLAIN,18));
+			lStorageType.setForeground(themedForeground);
+		actualPanel.add(inStorageType);
+			inStorageType.setFocusable(false);
+			inStorageType.setBounds(531,360,386,44);
+			inStorageType.setBorder(border);
+			inStorageType.setBackground(themedBackground);
+			inStorageType.setFont(new Font("SF Pro Display",Font.BOLD,18));
+			inStorageType.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
+			inStorageType.getBackground();
+		actualPanel.add(storageSendText);
+			storageSendText.setBounds(531,531,306,57);
+			storageSendText.setFont(new Font("SF Pro Display",Font.BOLD,24));
+			storageSendText.setForeground(themedBackground);
+			storageSendText.setHorizontalAlignment(SwingConstants.CENTER);
+			storageSendText.setVerticalAlignment(SwingConstants.CENTER);
+		actualPanel.add(storageSend);
+			storageSend.setFocusable(false);
+			storageSend.setBounds(531,531,306,57);
+			storageSend.setOpaque(false);
+			storageSend.setContentAreaFilled(false);
+			storageSend.setBorder(null);
+			storageSend.setIcon(smallRoundedButton);
 		mainFrame.add(titlebarPanel);
+		storageSend.addActionListener(this);
 		
 		actualPanel=mainStoragePanel;
 		actualPanel.setLayout(null);
-		actualPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+		actualPanel.setBackground(themedBackground);
 		actualPanel.add(sidePanel);
 			sidePanel.setBounds(0,0,300,711);
-			sidePanel.setBorder(BorderFactory.createLineBorder((theme.equals("lightTheme")?lightTheme[selected]:(theme.equals("darkTheme")?darkTheme[selected]:(theme.equals("darkBlueTheme")?darkBlueTheme[selected]:(theme.equals("lightBlueTheme")?lightBlueTheme[selected]:(theme.equals("greenTheme")?greenTheme[selected]:purpleTheme[selected]))))),1));
+			sidePanel.setBorder(BorderFactory.createLineBorder(themedSelected,1));
 			sidePanel.setSize(300,711);
-			sidePanel.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			sidePanel.setBackground(themedForeground);
 		actualPanel.add(searchBar);
 			searchBar.setBounds(600,70,500,40);
 			searchBar.setBorder(border);
-			searchBar.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			searchBar.setBackground(themedBackground);
 			searchBar.setFont(new Font("SF Pro Display",Font.PLAIN,18));
 			searchBar.setForeground((theme.equals("darkTheme")||theme.equals("darkBlueTheme"))?Color.white:null);
 		actualPanel.add(searchButton);
@@ -605,38 +690,37 @@ public class MainClass implements ActionListener,MouseListener
 		errorBoxRemover.setBounds(0,0,0,0);
 		errorFrame.add(errorTitlebarPanel);
 		errorFrame.add(errorPanel);
-		errorFrame.getRootPane().setBorder(BorderFactory.createMatteBorder(1,1,1,1,(theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground])))))));
+		errorFrame.getRootPane().setBorder(BorderFactory.createMatteBorder(1,1,1,1,themedForeground));
 		
 		errorTitlebarPanel.setLayout(null);
 		errorTitlebarPanel.setBounds(0,0,500,57);
-		errorTitlebarPanel.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+		errorTitlebarPanel.setBackground(themedForeground);
 		errorTitlebarPanel.add(errorLogo);
 			errorLogo.setBounds(15,3,50,50);
 		errorTitlebarPanel.add(errorClose);
 			errorClose.setBounds(443,0,57,57);
 			errorClose.setContentAreaFilled(false);
-			errorClose.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			errorClose.setForeground(themedBackground);
 			errorClose.setBorder(null);
 		
 		errorPanel.setLayout(null);
 		errorPanel.setBounds(0,57,500,443);
-		errorPanel.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+		errorPanel.setBackground(themedBackground);
 		errorPanel.add(errorLogTextArea);
 			errorLogTextArea.setBounds(50,20,400,363);
-			errorLogTextArea.setBackground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			errorLogTextArea.setBackground(themedBackground);
 		errorPanel.add(confirmButton);
 			confirmButton.setBounds(220,388,60,40);
 			confirmButton.setBorder(null);
-			confirmButton.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			confirmButton.setBackground(themedForeground);
 			confirmButton.setFont(new Font("SF Pro Display",Font.BOLD,18));
-			confirmButton.setForeground((theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))))));
+			confirmButton.setForeground(themedBackground);
 		
 		errorClose.addActionListener(this);
 		errorClose.addMouseListener(this);
 		confirmButton.addActionListener(this);
 		confirmButton.addMouseListener(this);
 	}
-	
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource()==close) {
@@ -656,17 +740,21 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==loginSend&&loginSendSuccessful()) {
-			titlebarPanel.add(bConta);
+			bConta.setEnabled(true);
+			bConta.setVisible(true);
 			if(userHasStorage()) {
 				c.show(mainPanel,"mainStoragePanel");
-			}
-			else {
+			} else {
 				c.show(mainPanel,"createStoragePanel");
 			}
 		}
 		
 		if(e.getSource()==lVoltarChooseLogin||e.getSource()==suVoltarChooseLogin) {
 			c.show(mainPanel,"chooseLoginPanel");
+		}
+		
+		if(e.getSource()==storageSend&&storageSendSuccessful()) {
+			c.show(mainPanel,"mainStoragePanel");
 		}
 		
 		
@@ -723,7 +811,7 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==confirmButton) {
-			confirmButton.setBackground((theme.equals("lightTheme")?lightTheme[selected]:(theme.equals("darkTheme")?darkTheme[selected]:(theme.equals("darkBlueTheme")?darkBlueTheme[selected]:(theme.equals("lightBlueTheme")?lightBlueTheme[selected]:(theme.equals("greenTheme")?greenTheme[selected]:purpleTheme[selected]))))));
+			confirmButton.setBackground(themedSelected);
 		}
 	}
 	
@@ -734,27 +822,27 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==login) {
-			login.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
+			login.setIcon(bigRoundedButton);
 		}
 		
 		if(e.getSource()==signUp) {
-			signUp.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png"))))));
+			signUp.setIcon(bigRoundedButton);
 		}
 		
 		if(e.getSource()==suVoltarChooseLogin) {
-			suVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
+			suVoltarChooseLogin.setIcon(seta);
 		}
 		
 		if(e.getSource()==signUpSend) {
-			signUpSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
+			signUpSend.setIcon(smallRoundedButton);
 		}
 		
 		if(e.getSource()==lVoltarChooseLogin) {
-			lVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))))));
+			lVoltarChooseLogin.setIcon(seta);
 		}
 		
 		if(e.getSource()==loginSend) {
-			loginSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png"))))));
+			loginSend.setIcon(smallRoundedButton);
 		}
 		
 		
@@ -764,14 +852,12 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==confirmButton) {
-			confirmButton.setBackground((theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))))));
+			confirmButton.setBackground(themedForeground);
 		}
 	}
+
 	
-	
-	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		new MainClass();
 	}
 }
