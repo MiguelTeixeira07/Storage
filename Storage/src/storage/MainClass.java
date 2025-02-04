@@ -229,11 +229,15 @@ public class MainClass implements ActionListener,MouseListener
 	String theme="darkBlueTheme";
 	
 	
-	ImageIcon biggestLogo=new ImageIcon((theme.equals("lightTheme")?"MT STORAGE light.png":(theme.equals("darkTheme")?"MT STORAGE dark.png":(theme.equals("darkBlueTheme")?"MT STORAGE darkBlue.png":(theme.equals("lightBlueTheme")?"MT STORAGE lightBlue.png":(theme.equals("greenTheme")?"MT STORAGE green.png":"MT STORAGE.png"))))));
-	ImageIcon mediumLogo=new ImageIcon((theme.equals("lightTheme")?"MT STORAGE signUp light.png":(theme.equals("darkTheme")?"MT STORAGE signUp dark.png":(theme.equals("darkBlueTheme")?"MT STORAGE signUp darkBlue.png":(theme.equals("lightBlueTheme")?"MT STORAGE signUp lightBlue.png":(theme.equals("greenTheme")?"MT STORAGE signUp green.png":"MT STORAGE signUp.png"))))));
+	ImageIcon biggestLogo=new ImageIcon(theme.equals("lightTheme")?"MT STORAGE light.png":(theme.equals("darkTheme")?"MT STORAGE dark.png":(theme.equals("darkBlueTheme")?"MT STORAGE darkBlue.png":(theme.equals("lightBlueTheme")?"MT STORAGE lightBlue.png":(theme.equals("greenTheme")?"MT STORAGE green.png":"MT STORAGE.png")))));
+	ImageIcon mediumLogo=new ImageIcon(theme.equals("lightTheme")?"MT STORAGE signUp light.png":(theme.equals("darkTheme")?"MT STORAGE signUp dark.png":(theme.equals("darkBlueTheme")?"MT STORAGE signUp darkBlue.png":(theme.equals("lightBlueTheme")?"MT STORAGE signUp lightBlue.png":(theme.equals("greenTheme")?"MT STORAGE signUp green.png":"MT STORAGE signUp.png")))));
 	ImageIcon bigRoundedButton=new ImageIcon(theme.equals("lightTheme")?"rounded button 2 light.png":(theme.equals("darkTheme")?"rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"rounded button 2 green.png":"rounded button 2.png")))));
-	ImageIcon smallRoundedButton=new ImageIcon();
-	ImageIcon seta=new ImageIcon((theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png"))))));
+	ImageIcon darkerBigRoundedButton=new ImageIcon(theme.equals("lightTheme")?"darker rounded button 2 light.png":(theme.equals("darkTheme")?"darker rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"darker rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"darker rounded button 2 green.png":"darker rounded button 2.png")))));
+	ImageIcon smallRoundedButton=new ImageIcon(theme.equals("lightTheme")?"rounded button light.png":(theme.equals("darkTheme")?"rounded button dark.png":(theme.equals("darkBlueTheme")?"rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"rounded button lightBlue.png":(theme.equals("greenTheme")?"rounded button green.png":"rounded button.png")))));
+	ImageIcon darkerSmallRoundedButton=new ImageIcon(theme.equals("lightTheme")?"darker rounded button light.png":(theme.equals("darkTheme")?"darker rounded button dark.png":(theme.equals("darkBlueTheme")?"darker rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button lightBlue.png":(theme.equals("greenTheme")?"darker rounded button green.png":"darker rounded button.png")))));
+	ImageIcon seta=new ImageIcon(theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))));
+	ImageIcon darkerSeta=new ImageIcon(theme.equals("lightTheme")?"seta escura light.png":(theme.equals("darkTheme")?"seta escura dark.png":(theme.equals("darkBlueTheme")?"seta escura darkBlue.png":(theme.equals("lightBlueTheme")?"seta escura lightBlue.png":(theme.equals("greenTheme")?"seta escura green.png":"seta escura.png")))));
+	ImageIcon hamburguerButton=new ImageIcon(theme.equals("lightTheme")?"Hamburguer button light.png":(theme.equals("darkTheme")?"Hamburguer button dark.png":(theme.equals("darkBlueTheme")?"Hamburguer button darkBlue.png":(theme.equals("lightBlueTheme")?"Hamburguer button lightBlue.png":(theme.equals("greenTheme")?"Hamburguer button green.png":"Hamburguer button purple.png")))));
 	
 	Color themedForeground=(theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground])))));
 	Color themedBackground=(theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background])))));
@@ -244,8 +248,12 @@ public class MainClass implements ActionListener,MouseListener
 	
 		JPanel titlebarPanel=new JPanel();
 			JButton close=new JButton(new ImageIcon("closeIcon colored transparent.png"));
-			JButton bConta=new JButton();
-			JButton menuButton=new JButton(new ImageIcon("Haburguer button dark.png"));
+			JButton menuButton=new JButton(hamburguerButton);
+			
+		JPanel hamburguerPanel=new JPanel();
+			JButton account=new JButton("Conta");
+			JButton themeButton=new JButton("Tema");
+			
 		
 		JPanel chooseLoginPanel=new JPanel();
 			JLabel chooseLoginPaneLogo=new JLabel(biggestLogo);
@@ -340,15 +348,6 @@ public class MainClass implements ActionListener,MouseListener
 		titlebarPanel.setLayout(null);
 		titlebarPanel.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		titlebarPanel.setBackground(themedForeground);
-		titlebarPanel.add(bConta);
-			bConta.setFocusable(false);
-			bConta.setIcon(new ImageIcon("account icon 50.png"));
-			bConta.setBounds(1250,0,57,57);
-			bConta.setOpaque(false);
-			bConta.setContentAreaFilled(false);
-			bConta.setBorder(null);
-			bConta.setEnabled(false);
-			bConta.setVisible(false);
 		titlebarPanel.add(close);
 		close.setFocusable(false);
 			close.setBounds(1309,0,57,57);
@@ -365,13 +364,11 @@ public class MainClass implements ActionListener,MouseListener
 			menuButton.addActionListener(this);
 			menuButton.addMouseListener(this);
 		
-		bConta.addActionListener(this);
-		bConta.addMouseListener(this);
 		titlebarPanel.setVisible(true);
 		
 		
 		mainPanel.setLayout(c);
-		mainPanel.setBounds(screenHeight*0,(int)(screenHeight*0.07421875),screenWidth,(int)(screenHeight*92.578125));
+		mainPanel.setBounds(0,57,1366,711);
 		mainPanel.add("chooseLoginPanel",chooseLoginPanel);
 		mainPanel.add("signUpPanel",signUpPanel);
 		mainPanel.add("loginPanel",loginPanel);
@@ -381,12 +378,12 @@ public class MainClass implements ActionListener,MouseListener
 		
 		
 		actualPanel=chooseLoginPanel; 
-		actualPanel.setBounds(screenHeight*0,(int)(screenHeight*0.07421875),screenWidth,(int)(screenHeight*92.578125));
+		actualPanel.setBounds(0,57,1366,711);
 		actualPanel.setLayout(null);
 		actualPanel.setBackground(themedBackground);
 		actualPanel.setLayout(null);
 		actualPanel.add(chooseLoginPaneLogo);
-			chooseLoginPaneLogo.setBounds((int)(screenWidth*0.36896046852122986),(int)((screenHeight-57)*0.10026041666666668),(int)(screenWidth*0.25988286969253295),(int)(screenHeight*0.40234375));
+			chooseLoginPaneLogo.setBounds(504,77,355,309);
 		actualPanel.add(signUpText);
 			signUpText.setBounds(502,453,361,57);
 			signUpText.setFont(new Font("SF Pro Display",Font.BOLD,24));
@@ -740,8 +737,6 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==loginSend&&loginSendSuccessful()) {
-			bConta.setEnabled(true);
-			bConta.setVisible(true);
 			if(userHasStorage()) {
 				c.show(mainPanel,"mainStoragePanel");
 			} else {
@@ -780,27 +775,27 @@ public class MainClass implements ActionListener,MouseListener
 		}
 		
 		if(e.getSource()==login) {
-			login.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button 2 light.png":(theme.equals("darkTheme")?"darker rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"darker rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"darker rounded button 2 green.png":"darker rounded button 2.png"))))));
+			login.setIcon(darkerBigRoundedButton);
 		}
 		
 		if(e.getSource()==signUp) {
-			signUp.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button 2 light.png":(theme.equals("darkTheme")?"darker rounded button 2 dark.png":(theme.equals("darkBlueTheme")?"darker rounded button 2 darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button 2 lightBlue.png":(theme.equals("greenTheme")?"darker rounded button 2 green.png":"darker rounded button 2.png"))))));
+			signUp.setIcon(darkerBigRoundedButton);
 		}
 		
 		if(e.getSource()==suVoltarChooseLogin) {
-			suVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta escura light.png":(theme.equals("darkTheme")?"seta escura dark.png":(theme.equals("darkBlueTheme")?"seta escura darkBlue.png":(theme.equals("lightBlueTheme")?"seta escura lightBlue.png":(theme.equals("greenTheme")?"seta escura green.png":"seta escura.png")))))));
+			suVoltarChooseLogin.setIcon(darkerSeta);
 		}
 		
 		if(e.getSource()==signUpSend) {
-			signUpSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button light.png":(theme.equals("darkTheme")?"darker rounded button dark.png":(theme.equals("darkBlueTheme")?"darker rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button lightBlue.png":(theme.equals("greenTheme")?"darker rounded button green.png":"darker rounded button.png"))))));
+			signUpSend.setIcon(darkerSmallRoundedButton);
 		}
 		
 		if(e.getSource()==lVoltarChooseLogin) {
-			lVoltarChooseLogin.setIcon(new ImageIcon((theme.equals("lightTheme")?"seta escura light.png":(theme.equals("darkTheme")?"seta escura dark.png":(theme.equals("darkBlueTheme")?"seta escura darkBlue.png":(theme.equals("lightBlueTheme")?"seta escura lightBlue.png":(theme.equals("greenTheme")?"seta escura green.png":"seta escura.png")))))));
+			lVoltarChooseLogin.setIcon(darkerSeta);
 		}
 		
 		if(e.getSource()==loginSend) {
-			loginSend.setIcon(new ImageIcon(theme.equals("lightTheme")?"darker rounded button light.png":(theme.equals("darkTheme")?"darker rounded button dark.png":(theme.equals("darkBlueTheme")?"darker rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button lightBlue.png":(theme.equals("greenTheme")?"darker rounded button green.png":"darker rounded button.png"))))));
+			loginSend.setIcon(darkerSmallRoundedButton);
 		}
 		
 		
