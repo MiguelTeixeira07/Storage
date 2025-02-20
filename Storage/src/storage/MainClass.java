@@ -19,8 +19,11 @@ public class MainClass implements ActionListener,MouseListener
 	public static final int background=0;
 	public static final int foreground=1;
 	public static final int selected=2;
+	public static final int menus=3;
 	public static final int red=0;
 	public static final int darkRed=1;
+	
+	public static boolean hamburguerOpened=false;
 	
 	Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
 	int screenWidth=(int)screenSize.getWidth();
@@ -211,17 +214,17 @@ public class MainClass implements ActionListener,MouseListener
 	
 	CardLayout c=new CardLayout();
 	
-	Color[] purpleTheme={new Color(222,215,224),new Color(108,91,120),new Color(88,71,100)};
+	Color[] purpleTheme={new Color(222,215,224),new Color(108,91,120),new Color(88,71,100),new Color(192,185,194)};
 	
-	Color[] lightTheme={new Color(242,242,242),new Color(127,127,127),new Color(107,107,107)};
+	Color[] lightTheme={new Color(242,242,242),new Color(127,127,127),new Color(107,107,107),new Color(212,212,212)};
 	
-	Color[] lightBlueTheme={new Color(96,150,186),new Color(39,76,119),new Color(9,56,99)};
+	Color[] lightBlueTheme={new Color(96,150,186),new Color(39,76,119),new Color(9,56,99),new Color(66,120,156)};
 	
-	Color[] darkBlueTheme={new Color(13,27,42),new Color(65,90,119),new Color(119,141,169)};
+	Color[] darkBlueTheme={new Color(13,27,42),new Color(65,90,119),new Color(119,141,169),new Color(43,57,72)};
 	
-	Color[] greenTheme={new Color(173,177,138),new Color(58,90,64),new Color(52,78,65)};
+	Color[] greenTheme={new Color(173,177,138),new Color(58,90,64),new Color(52,78,65),new Color(143,147,108)};
 	
-	Color[] darkTheme={new Color(18,20,32),new Color(44,43,60),new Color(64,63,76)};
+	Color[] darkTheme={new Color(18,20,32),new Color(44,43,60),new Color(64,63,76),new Color(48,50,82)};
 	
 	Color[] reds={new Color(200,30,30),new Color(175,0,0)};
 	
@@ -237,22 +240,21 @@ public class MainClass implements ActionListener,MouseListener
 	ImageIcon darkerSmallRoundedButton=new ImageIcon(theme.equals("lightTheme")?"darker rounded button light.png":(theme.equals("darkTheme")?"darker rounded button dark.png":(theme.equals("darkBlueTheme")?"darker rounded button darkBlue.png":(theme.equals("lightBlueTheme")?"darker rounded button lightBlue.png":(theme.equals("greenTheme")?"darker rounded button green.png":"darker rounded button.png")))));
 	ImageIcon seta=new ImageIcon(theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))));
 	ImageIcon darkerSeta=new ImageIcon(theme.equals("lightTheme")?"seta escura light.png":(theme.equals("darkTheme")?"seta escura dark.png":(theme.equals("darkBlueTheme")?"seta escura darkBlue.png":(theme.equals("lightBlueTheme")?"seta escura lightBlue.png":(theme.equals("greenTheme")?"seta escura green.png":"seta escura.png")))));
-	ImageIcon hamburguerButton=new ImageIcon(theme.equals("lightTheme")?"Hamburguer button light.png":(theme.equals("darkTheme")?"Hamburguer button dark.png":(theme.equals("darkBlueTheme")?"Hamburguer button darkBlue.png":(theme.equals("lightBlueTheme")?"Hamburguer button lightBlue.png":(theme.equals("greenTheme")?"Hamburguer button green.png":"Hamburguer button purple.png")))));
+	ImageIcon hamburguerIcon=new ImageIcon(theme.equals("lightTheme")?"Hamburguer button light.png":(theme.equals("darkTheme")?"Hamburguer button dark.png":(theme.equals("darkBlueTheme")?"Hamburguer button darkBlue.png":(theme.equals("lightBlueTheme")?"Hamburguer button lightBlue.png":(theme.equals("greenTheme")?"Hamburguer button green.png":"Hamburguer button purple.png")))));
+	ImageIcon accountIcon=new ImageIcon(theme.equals("lightTheme")?"seta light.png":(theme.equals("darkTheme")?"seta dark.png":(theme.equals("darkBlueTheme")?"seta darkBlue.png":(theme.equals("lightBlueTheme")?"seta lightBlue.png":(theme.equals("greenTheme")?"seta green.png":"seta.png")))));
+	ImageIcon themeIcon=new ImageIcon(theme.equals("lightTheme")?"theme icon light.png":(theme.equals("darkTheme")?"theme icon dark.png":(theme.equals("darkBlueTheme")?"theme icon darkBlue.png":(theme.equals("lightBlueTheme")?"theme icon lightBlue.png":(theme.equals("greenTheme")?"theme icon green.png":"theme icon.png")))));
 	
-	Color themedForeground=(theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground])))));
-	Color themedBackground=(theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background])))));
-	Color themedSelected=(theme.equals("lightTheme")?lightTheme[selected]:(theme.equals("darkTheme")?darkTheme[selected]:(theme.equals("darkBlueTheme")?darkBlueTheme[selected]:(theme.equals("lightBlueTheme")?lightBlueTheme[selected]:(theme.equals("greenTheme")?greenTheme[selected]:purpleTheme[selected])))));
+	Color themedForeground=theme.equals("lightTheme")?lightTheme[foreground]:(theme.equals("darkTheme")?darkTheme[foreground]:(theme.equals("darkBlueTheme")?darkBlueTheme[foreground]:(theme.equals("lightBlueTheme")?lightBlueTheme[foreground]:(theme.equals("greenTheme")?greenTheme[foreground]:purpleTheme[foreground]))));
+	Color themedBackground=theme.equals("lightTheme")?lightTheme[background]:(theme.equals("darkTheme")?darkTheme[background]:(theme.equals("darkBlueTheme")?darkBlueTheme[background]:(theme.equals("lightBlueTheme")?lightBlueTheme[background]:(theme.equals("greenTheme")?greenTheme[background]:purpleTheme[background]))));
+	Color themedSelected=theme.equals("lightTheme")?lightTheme[selected]:(theme.equals("darkTheme")?darkTheme[selected]:(theme.equals("darkBlueTheme")?darkBlueTheme[selected]:(theme.equals("lightBlueTheme")?lightBlueTheme[selected]:(theme.equals("greenTheme")?greenTheme[selected]:purpleTheme[selected]))));
+	Color themedMenu=theme.equals("lightTheme")?lightTheme[menus]:(theme.equals("darkTheme")?darkTheme[menus]:(theme.equals("darkBlueTheme")?darkBlueTheme[menus]:(theme.equals("lightBlueTheme")?lightBlueTheme[menus]:(theme.equals("greenTheme")?greenTheme[menus]:purpleTheme[menus]))));
 	
 	JFrame mainFrame=new JFrame("Storage");
 	JPanel mainPanel=new JPanel();
 	
 		JPanel titlebarPanel=new JPanel();
 			JButton close=new JButton(new ImageIcon("closeIcon colored transparent.png"));
-			JButton menuButton=new JButton(hamburguerButton);
-			
-		JPanel hamburguerPanel=new JPanel();
-			JButton account=new JButton("Conta");
-			JButton themeButton=new JButton("Tema");
+			JButton menuButton=new JButton(hamburguerIcon);
 			
 		
 		JPanel chooseLoginPanel=new JPanel();
@@ -261,11 +263,14 @@ public class MainClass implements ActionListener,MouseListener
 			JLabel signUpText=new JLabel("Criar conta");
 			JButton login=new JButton();
 			JLabel loginText=new JLabel("Login");
+			JLabel backgroundLabel=new JLabel();
+				JButton account=new JButton("Conta");
+				JButton themeButton=new JButton("Tema");
 			
 		JPanel signUpPanel=new JPanel();
 			Border line=new LineBorder(themedForeground,2);
 			Border empty=new EmptyBorder(0, 10, 0, 0);
-			CompoundBorder border = new CompoundBorder(line, empty);
+			CompoundBorder border=new CompoundBorder(line, empty);
 			JButton suVoltarChooseLogin=new JButton();
 			JLabel signUpPaneLogo=new JLabel(mediumLogo);
 			JLabel signUpPaneTitle=new JLabel("Criar conta");
@@ -308,7 +313,7 @@ public class MainClass implements ActionListener,MouseListener
 			JTextField inStorageWidth=new JTextField(4);
 			JLabel lNumPisos=new JLabel("Número de pisos da Storage");
 			JTextField inNumPisos=new JTextField(2);
-			JLabel lStorageType=new JLabel("Número de pisos da Storage");
+			JLabel lStorageType=new JLabel("Tipo da Storage");
 			String[] tipos={"  Armazém","  Laboratório","  Moradia","  Outro"};
 			JComboBox inStorageType=new JComboBox(tipos);
 			JLabel storageSendText=new JLabel("Criar Storage");
@@ -333,8 +338,7 @@ public class MainClass implements ActionListener,MouseListener
 		JTextArea errorLogTextArea=new JTextArea();
 		JButton confirmButton=new JButton("ok");
 	
-	public MainClass()
-	{
+	public MainClass() {
 		
 		UIManager.put("Button.select",selected);
 		mainFrame.setUndecorated(true);
@@ -349,7 +353,7 @@ public class MainClass implements ActionListener,MouseListener
 		titlebarPanel.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		titlebarPanel.setBackground(themedForeground);
 		titlebarPanel.add(close);
-		close.setFocusable(false);
+			close.setFocusable(false);
 			close.setBounds(1309,0,57,57);
 			close.setContentAreaFilled(false);
 			close.setForeground(themedBackground);
@@ -358,12 +362,29 @@ public class MainClass implements ActionListener,MouseListener
 			close.addMouseListener(this);
 		titlebarPanel.add(menuButton);
 			menuButton.setFocusable(false);
-			menuButton.setBounds(15,3,50,50);
+			menuButton.setBounds(0,0,67,57);
 			menuButton.setBorder(null);
 			menuButton.setContentAreaFilled(false);
+			menuButton.setForeground(themedBackground);
+			menuButton.setBorder(null);
 			menuButton.addActionListener(this);
 			menuButton.addMouseListener(this);
-		
+			actualPanel.add(backgroundLabel);
+				backgroundLabel.setBounds(0,0,250,500);
+				backgroundLabel.setOpaque(true);
+				backgroundLabel.setBackground(themedBackground);
+			actualPanel.add(account);
+				account.setFocusable(false);
+				account.setBounds(0,0,250,57);
+				account.setFont(new Font("SF Pro Display",Font.BOLD,17));
+				account.setBackground(themedMenu);
+				account.setForeground(new Color(255,255,255));
+				account.setBorder(null);
+				account.setIcon(accountIcon);
+			actualPanel.add(themeButton);
+				themeButton.setFocusable(false);
+				themeButton.setBounds(0,57,250,57);
+				themeButton.setIcon(themeIcon);
 		titlebarPanel.setVisible(true);
 		
 		
@@ -629,12 +650,12 @@ public class MainClass implements ActionListener,MouseListener
 			inNumPisos.setFont(new Font("SF Pro Display",Font.BOLD,18));
 			inNumPisos.setForeground(theme.equals("darkTheme")||theme.equals("darkBlueTheme")?Color.white:null);
 		actualPanel.add(lStorageType);
-			lStorageType.setBounds(548,395,386,44);
+			lStorageType.setBounds(507,325,386,44);
 			lStorageType.setFont(new Font("SF Pro Display",Font.PLAIN,18));
 			lStorageType.setForeground(themedForeground);
 		actualPanel.add(inStorageType);
 			inStorageType.setFocusable(false);
-			inStorageType.setBounds(531,360,386,44);
+			inStorageType.setBounds(490,360,386,44);
 			inStorageType.setBorder(border);
 			inStorageType.setBackground(themedBackground);
 			inStorageType.setFont(new Font("SF Pro Display",Font.BOLD,18));
@@ -724,6 +745,16 @@ public class MainClass implements ActionListener,MouseListener
 			System.exit(0);
 		}
 		
+		if(e.getSource()==menuButton) {
+			if(!hamburguerOpened) {
+				backgroundLabel.setBackground(themedMenu);
+				hamburguerOpened=true;
+			} else {
+				backgroundLabel.setBackground(themedBackground);
+				hamburguerOpened=false;
+			}
+		}
+		
 		if(e.getSource()==signUp) {
 			c.show(mainPanel,"signUpPanel");
 		}
@@ -774,6 +805,11 @@ public class MainClass implements ActionListener,MouseListener
 			close.setBackground(reds[red]);
 		}
 		
+		if(e.getSource()==menuButton) {
+			menuButton.setContentAreaFilled(true);
+			menuButton.setBackground(themedSelected);
+		}
+		
 		if(e.getSource()==login) {
 			login.setIcon(darkerBigRoundedButton);
 		}
@@ -814,6 +850,10 @@ public class MainClass implements ActionListener,MouseListener
 	{
 		if(e.getSource()==close) {
 			close.setContentAreaFilled(false);
+		}
+		
+		if(e.getSource()==menuButton) {
+			menuButton.setContentAreaFilled(false);
 		}
 		
 		if(e.getSource()==login) {
